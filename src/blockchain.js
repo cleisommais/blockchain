@@ -3,6 +3,8 @@ module.exports = class Blockchain {
     constructor() {
         this.chain = [];
         this.pendingTransactions = [];
+        //genesis file
+        this.createNewBlock(100, '0', '0');
     }
     createNewBlock(nonce, previousBlockHash, hash) {
         const newBlock = {
@@ -34,5 +36,14 @@ module.exports = class Blockchain {
             previousBlockHash + nonce + JSON.stringify(currentBlockData);
         const hash = sha256(dataAsString);
         return hash;
+    }
+    proofOfWork(previousBlockHash, currentBlockData) {
+        let nonce = 0;
+        let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce);
+        while (hash.substring(0, 4) !== '0000') {
+            nonce++;
+            hash = this.hashBlock(previousBlockHash, currentBlockData, nonce);
+        }
+        return nonce;
     }
 };
