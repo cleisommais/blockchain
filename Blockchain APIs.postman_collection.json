@@ -67,6 +67,87 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "register-broadcast-node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newNodeURL\": \"http://localhost:3001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/register-broadcast-node",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register-broadcast-node"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register-node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newNodeURL\": \"http://localhost:3001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/register-node",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register-node"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register-nodes-bulk",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"allNetworkNodes\": [\r\n        \"http://localhost:3000\",\r\n        \"http://localhost:3001\",\r\n        \"http://localhost:3002\",\r\n        \"http://localhost:3003\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/register-nodes-bulk",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register-nodes-bulk"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
