@@ -4,7 +4,11 @@
     "description": "Project to learn how works a full blockchain with javascript",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon --watch src -e js src/app.js",
+        "node01": "nodemon --watch src -e js src/app.js 3000 http://localhost:3000",
+        "node02": "nodemon --watch src -e js src/app.js 3001 http://localhost:3001",
+        "node03": "nodemon --watch src -e js src/app.js 3002 http://localhost:3002",
+        "node04": "nodemon --watch src -e js src/app.js 3003 http://localhost:3003",
+        "node05": "nodemon --watch src -e js src/app.js 3004 http://localhost:3004",
         "start": "node src/app.js",
         "test": "mocha test/**/*.test.js",
         "format": "npx prettier --write .",
@@ -14,6 +18,8 @@
     "dependencies": {
         "body-parser": "^1.19.1",
         "express": "^4.17.2",
+        "request": "^2.88.2",
+        "request-promise": "^4.2.6",
         "sha256": "^0.2.0",
         "uuid": "^8.3.2"
     },
