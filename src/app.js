@@ -96,14 +96,10 @@ app.post('/register-node', (request, response) => {
     const notCurrentNode = bitcoin.currentNodeURL !== newNodeURL;
     if (nodeNotAlreadyPresent && notCurrentNode) {
         bitcoin.networkNodes.push(newNodeURL);
-        response.json({
-            message: 'New node registered successfully with node',
-        });
-    } else {
-        response.status(400).json({
-            message: 'Node already registered before',
-        });
     }
+    response.json({
+        message: 'New node registered successfully with node',
+    });
 });
 
 //register multiple nodes at once to the network
@@ -117,6 +113,33 @@ app.post('/register-nodes-bulk', (request, response) => {
         }
     });
     response.json({ message: 'Bulk registration successful' });
+});
+
+app.post('/transaction/broadcast', (request, response) => {
+    const amount = request.body.amount;
+    const sender = request.body.sender;
+    const recipient = request.body.recipient;
+    const newTransaction = bitcoin.createNewTransaction(
+        amount,
+        sender,
+        recipient
+    );
+    bitcoin.addTransactionToPendingTransactions(newTransaction);
+    const registerPromises = [];
+    bitcoin.networkNodes.forEach((url) => {
+        const requestOptions = {
+            uri: url + '/transaction',
+            method: 'POST',
+            body: { newTransaction },
+            json: true,
+        };
+        registerPromises.push(requestPromise(requestOptions));
+    });
+    Promise.all(registerPromises).then((data) => {
+        response.json({
+            message: 'Transaction created and broadcast successfully',
+        });
+    });
 });
 
 const PORT = process.env.PORT || process.argv[2];

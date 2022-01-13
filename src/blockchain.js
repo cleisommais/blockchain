@@ -1,5 +1,6 @@
 const sha256 = require('sha256');
 const currentNodeURL = process.argv[3];
+const uuid = require('uuid');
 module.exports = class Blockchain {
     constructor() {
         this.chain = [];
@@ -30,7 +31,11 @@ module.exports = class Blockchain {
             amount,
             sender,
             recipient,
+            transactionId: uuid.v1().split('-').join(''),
         };
+        return newTransaction;
+    }
+    addTransactionToPendingTransactions(newTransaction) {
         this.pendingTransactions.push(newTransaction);
         return this.getLastBlock()['index'] + 1;
     }
