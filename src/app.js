@@ -16,11 +16,9 @@ app.get('/blockchain', (request, response) => {
 
 //create a new transaction
 app.post('/transaction', (request, response) => {
-    const lastBlock = bitcoin.createNewTransaction(
-        request.body.amount,
-        request.body.sender,
-        request.body.recipient
-    );
+    const newTransaction = request.body.newTransaction;
+    const lastBlock =
+        bitcoin.addTransactionToPendingTransactions(newTransaction);
     response.json({
         message: `Transaction will be added in block ${lastBlock}`,
     });
