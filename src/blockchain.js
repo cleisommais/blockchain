@@ -54,4 +54,39 @@ module.exports = class Blockchain {
         }
         return nonce;
     }
+    isChainValid(blockchain) {
+        let validChain = true;
+        for (let index = 1; index < blockchain.length; index++) {
+            const currentBlock = blockchain[index];
+            const previousBlock = blockchain[index - 1];
+            const blockHash = this.hashBlock(previousBlock['hash'], {
+                transactions: currentBlock['transactions'],
+                index: currentBlock['index'],
+            });
+            if (blockHash.substring(0, 4) !== '0000') {
+                validChain = false;
+                break;
+            }
+            if (currentBlock['previousBlockHash'] !== previousBlock['hash']) {
+                validChain = false;
+                break;
+            }
+        }
+        const genesisBlock = blockchain[0];
+        const currentNonce = genesisBlock['nonce'] === 100;
+        const correctPreviousBlockHash =
+            genesisBlock['previousBlockHash'] === '0';
+        const correctHash = genesisBlock['hash'] === '0';
+        const correctTransactions = genesisBlock['transactions'].length === 0;
+        if (
+            !correctHash ||
+            !correctPreviousBlockHash ||
+            !currentNonce ||
+            !correctTransactions
+        ) {
+            validChain = false;
+        }
+
+        return validChain;
+    }
 };
