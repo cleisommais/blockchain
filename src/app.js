@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const logger = require('morgan');
 const uuid = require('uuid');
 const requestPromise = require('request-promise');
 const nodeAddress = uuid.v1().split('-').join('');
@@ -8,6 +9,7 @@ const bitcoin = new Blockchain();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(logger(process.env.ENVIRONMENT || 'dev'));
 
 // fetch entire blockchain
 app.get('/blockchain', (request, response) => {
