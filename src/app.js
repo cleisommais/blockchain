@@ -38,14 +38,42 @@ app.get('/mine', (request, response) => {
         currentBlockData,
         nonce
     );
-    //reward for who is mining
-    bitcoin.createNewTransaction(12.5, '00', nodeAddress);
     const newBlock = bitcoin.createNewBlock(
         nonce,
         previousBlockHash,
         blockHash
     );
-    response.send(newBlock);
+    const registerPromises = [];
+    bitcoin.networkNodes.forEach((url) => {
+        const requestOptions = {
+            uri: url + '/receive-new-block',
+            method: 'POST',
+            body: { newBlock: newBlock },
+            json: true,
+        };
+        registerPromises.push(requestPromise(requestOptions));
+    });
+    Promise.all(registerPromises)
+        .then((data) => {
+            //reward for who is mining
+            const requestOptions = {
+                uri: bitcoin.currentNodeURL + '/transaction/broadcast',
+                method: 'POST',
+                body: {
+                    amount: 12.5,
+                    sender: '00',
+                    recipient: nodeAddress,
+                },
+                json: true,
+            };
+            return requestPromise(requestOptions);
+        })
+        .finally((data) => {
+            response.json({
+                message: 'New block mined & broadcast successfully',
+                block: newBlock,
+            });
+        });
 });
 
 //register a node and broadcast to the network
@@ -138,6 +166,26 @@ app.post('/transaction/broadcast', (request, response) => {
             message: 'Transaction created and broadcast successfully',
         });
     });
+});
+
+app.post('/receive-new-block', (request, response) => {
+    const newBlock = request.body.newBlock;
+    const lastBlock = bitcoin.getLastBlock();
+    const correctHash = lastBlock.hash === newBlock.previousBlockHash;
+    const correctIndex = lastBlock['index'] + 1 === newBlock['index'];
+    if (correctHash && correctIndex) {
+        bitcoin.chain.push(newBlock);
+        bitcoin.pendingTransactions = [];
+        response.json({
+            message: 'New block received and accepted',
+            block: newBlock,
+        });
+    } else {
+        response.json({
+            message: 'New block rejected',
+            block: newBlock,
+        });
+    }
 });
 
 const PORT = process.env.PORT || process.argv[2];
