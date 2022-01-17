@@ -59,10 +59,14 @@ module.exports = class Blockchain {
         for (let index = 1; index < blockchain.length; index++) {
             const currentBlock = blockchain[index];
             const previousBlock = blockchain[index - 1];
-            const blockHash = this.hashBlock(previousBlock['hash'], {
-                transactions: currentBlock['transactions'],
-                index: currentBlock['index'],
-            });
+            const blockHash = this.hashBlock(
+                previousBlock['hash'],
+                {
+                    transactions: currentBlock['transactions'],
+                    index: currentBlock['index'],
+                },
+                currentBlock['nonce']
+            );
             if (blockHash.substring(0, 4) !== '0000') {
                 validChain = false;
                 break;

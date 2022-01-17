@@ -1,9 +1,9 @@
 const Blockchain = require('../src/blockchain');
+const blockChain01 = require('./blockchain01.json');
 const chai = require('chai');
 
 it('Test Case to Bitcoin - createNewBlock method', function () {
     const bitcoin = new Blockchain();
-    console.log(bitcoin);
     //Mining a new block
     bitcoin.createNewBlock(1111, '', 'FSD5246FA');
     bitcoin.createNewBlock(1112, 'FSD5246FA', '65GD4S6GF4S6');
@@ -12,17 +12,12 @@ it('Test Case to Bitcoin - createNewBlock method', function () {
 });
 
 it('Test Case to Bitcoin - createNewTransaction method', function () {
-    const response = [
-        {
-            amount: 100,
-            sender: 'ALEXLKFS65F4S6',
-            recipient: 'JENN987FDS45F96S',
-        },
-    ];
     const bitcoin = new Blockchain();
     bitcoin.createNewBlock(1112, 'FSD5246FA', '65GD4S6GF4S6');
     bitcoin.createNewTransaction(100, 'ALEXLKFS65F4S6', 'JENN987FDS45F96S');
-    chai.expect(bitcoin.pendingTransactions).to.deep.equal(response);
+    chai.expect(bitcoin.chain[1].hash).to.deep.equal('65GD4S6GF4S6');
+    chai.expect(bitcoin.chain[1].previousBlockHash).to.deep.equal('FSD5246FA');
+    chai.expect(bitcoin.pendingTransactions).to.deep.equal([]);
 });
 
 it('Test Case to Bitcoin - createNewTransaction method 2', function () {
@@ -35,39 +30,14 @@ it('Test Case to Bitcoin - createNewTransaction method 2', function () {
         },
     ];
     bitcoin.createNewBlock(1112, 'FSD5246FA', '65GD4S6GF4S6');
-    bitcoin.createNewTransaction(100, 'ALEXLKFS65F4S6', 'JENN987FDS45F96S');
     bitcoin.createNewBlock(1113, '65GD4S6GF4S6', 'VASDG45A64G');
-    chai.expect(bitcoin.chain[2].transactions).to.deep.equal(response);
+    chai.expect(bitcoin.chain[2].hash).to.deep.equal('VASDG45A64G');
+    chai.expect(bitcoin.chain[2].previousBlockHash).to.deep.equal(
+        '65GD4S6GF4S6'
+    );
+    chai.expect(bitcoin.pendingTransactions).to.deep.equal([]);
 });
 
-it('Test Case to Bitcoin - createNewTransaction method 3', function () {
-    const bitcoin = new Blockchain();
-    const response = [
-        {
-            amount: 100,
-            sender: 'ALEXLKFS65F4S6',
-            recipient: 'JENN987FDS45F96S',
-        },
-        {
-            amount: 50,
-            sender: 'ALEXLKFS65F4S6',
-            recipient: 'JENN987FDS45F96S',
-        },
-        {
-            amount: 400,
-            sender: 'ALEXLKFS65F4S6',
-            recipient: 'JENN987FDS45F96S',
-        },
-    ];
-    bitcoin.createNewBlock(1112, 'FSD5246FA', '65GD4S6GF4S6');
-    bitcoin.createNewTransaction(100, 'ALEXLKFS65F4S6', 'JENN987FDS45F96S');
-    bitcoin.createNewBlock(1113, '65GD4S6GF4S6', 'VASDG45A64G');
-    bitcoin.createNewTransaction(100, 'ALEXLKFS65F4S6', 'JENN987FDS45F96S');
-    bitcoin.createNewTransaction(50, 'ALEXLKFS65F4S6', 'JENN987FDS45F96S');
-    bitcoin.createNewTransaction(400, 'ALEXLKFS65F4S6', 'JENN987FDS45F96S');
-    bitcoin.createNewBlock(1114, 'VASDG45A64G', '5G4A5F6A4F6A4');
-    chai.expect(bitcoin.chain[3].transactions).to.deep.equal(response);
-});
 it('Test Case to Bitcoin - hashBlock method', function () {
     const bitcoin = new Blockchain();
     const previousBlockHash = '98FA7S9FD8A98';
@@ -103,4 +73,34 @@ it('Test Case to Bitcoin - proofOfWork method', function () {
     chai.expect(hash).to.deep.equal(
         '000037d24659a43466bfbccf34b6590f9b75a665926f6e69352df2a24c2cc2fd'
     );
+});
+
+it('Test Case to Bitcoin - isChainValid method must be TRUE', function () {
+    const bitcoin = new Blockchain();
+    const isChainValid = bitcoin.isChainValid(blockChain01.chain);
+    chai.expect(isChainValid).to.deep.equal(true);
+});
+
+it('Test Case to Bitcoin - isChainValid method must be FALSE the hash is wrong', function () {
+    const bitcoin = new Blockchain();
+    blockChain01.chain[2].hash =
+        '0000b9135b054d1131392c9eb9d03b0111d4b516824a03c35639e12858912100';
+    const isChainValid = bitcoin.isChainValid(blockChain01.chain);
+    chai.expect(isChainValid).to.deep.equal(false);
+});
+
+it('Test Case to Bitcoin - isChainValid method must be FALSE the previousBlockHash is wrong', function () {
+    const bitcoin = new Blockchain();
+    blockChain01.chain[2].previousBlockHash =
+        '0000b9135b054d1131392c9eb9d03b0111d4b516824a03c35639e12858912100';
+    const isChainValid = bitcoin.isChainValid(blockChain01.chain);
+    chai.expect(isChainValid).to.deep.equal(false);
+});
+
+it('Test Case to Bitcoin - isChainValid method must be FALSE the hash with wrong pattern', function () {
+    const bitcoin = new Blockchain();
+    blockChain01.chain[2].hash =
+        'b9135b054d1131392c9eb9d03b0111d4b516824a03c35639e12858912100';
+    const isChainValid = bitcoin.isChainValid(blockChain01.chain);
+    chai.expect(isChainValid).to.deep.equal(false);
 });
