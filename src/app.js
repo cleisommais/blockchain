@@ -190,6 +190,53 @@ app.post('/receive-new-block', (request, response) => {
     }
 });
 
+app.get('/consensus', (request, response) => {
+    const registerPromises = [];
+    bitcoin.networkNodes.forEach((url) => {
+        const requestOptions = {
+            uri: url + '/blockchain',
+            method: 'GET',
+            json: true,
+        };
+        registerPromises.push(requestPromise(requestOptions));
+    });
+    Promise.all(registerPromises)
+        .then((blockChains) => {
+            const currentChainLength = bitcoin.chain.length;
+            let maxChainLength = currentChainLength;
+            let newLongestChain = null;
+            let newPendingTransactions = null;
+            const responseData = {
+                message: '',
+                chain: [],
+            };
+            blockChains.forEach((blockChain) => {
+                if (blockChain.chain.length > maxChainLength) {
+                    maxChainLength = blockChain.chain.length;
+                    newLongestChain = blockChain.chain;
+                    newPendingTransactions = blockChain.pendingTransactions;
+                }
+            });
+            if (
+                !newLongestChain ||
+                (newLongestChain && !bitcoin.isChainValid(newLongestChain))
+            ) {
+                responseData.message = 'Current chain has not been replaced';
+                responseData.chain = bitcoin.chain;
+                response.status(200).json(responseData);
+            } else {
+                bitcoin.chain = newLongestChain;
+                bitcoin.pendingTransactions = newPendingTransactions;
+                responseData.message = 'This chain has been replaced';
+                responseData.chain = bitcoin.chain;
+                response.status(200).json(responseData);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+});
+
 const PORT = process.env.PORT || process.argv[2];
 
 app.listen(PORT, () => {
