@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const requestPromise = require('request-promise');
 const nodeAddress = uuid.v1().split('-').join('');
 const Blockchain = require('./blockchain');
+const res = require('express/lib/response');
 const bitcoin = new Blockchain();
 const app = express();
 app.use(bodyParser.json());
@@ -237,11 +238,30 @@ app.get('/consensus', (request, response) => {
         });
 });
 
-app.get('/block/:blockHash', (request, response) => {});
+app.get('/block/:blockHash', (request, response) => {
+    const blockHash = request.params.blockHash;
+    const correctBlock = bitcoin.getBlock(blockHash);
+    response.json({
+        block: correctBlock,
+    });
+});
 
-app.get('/transaction/:transactionId', (request, response) => {});
+app.get('/transaction/:transactionId', (request, response) => {
+    const transactionId = request.params.transactionId;
+    const dataResponse = bitcoin.getTransaction(transactionId);
+    response.json({
+        block: dataResponse.block,
+        transaction: dataResponse.transaction,
+    });
+});
 
-app.get('/address/:address', (request, response) => {});
+app.get('/address/:address', (request, response) => {
+    const address = request.params.address;
+    const addressData = bitcoin.getAddress(address);
+    response.json({
+        addressData,
+    });
+});
 
 const PORT = process.env.PORT || process.argv[2];
 
