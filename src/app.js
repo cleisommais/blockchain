@@ -237,6 +237,12 @@ app.get('/consensus', (request, response) => {
         });
 });
 
+app.get('/block/:blockHash', (request, response) => {});
+
+app.get('/transaction/:transactionId', (request, response) => {});
+
+app.get('/address/:address', (request, response) => {});
+
 const PORT = process.env.PORT || process.argv[2];
 
 app.listen(PORT, () => {

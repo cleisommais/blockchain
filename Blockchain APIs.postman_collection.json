@@ -1,153 +1,129 @@
 {
-	"info": {
-		"_postman_id": "3fb679c3-e2cc-45a4-851f-39c24d2354ee",
-		"name": "Blockchain APIs",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "blockchain",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/blockchain",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"blockchain"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "transaction",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"amount\": 3,\r\n    \"sender\": \"feb65a70730f11ec982d8562f79cf5d7\",\r\n    \"recipient\": \"ed24fa50730f11ec9bab230c8243001c\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/transaction",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"transaction"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mine",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/mine",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"mine"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "register-broadcast-node",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"newNodeURL\": \"http://localhost:3001\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/register-broadcast-node",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"register-broadcast-node"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "register-node",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"newNodeURL\": \"http://localhost:3001\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/register-node",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"register-node"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "register-nodes-bulk",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"allNetworkNodes\": [\r\n        \"http://localhost:3000\",\r\n        \"http://localhost:3001\",\r\n        \"http://localhost:3002\",\r\n        \"http://localhost:3003\"\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/register-nodes-bulk",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"register-nodes-bulk"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+    "info": {
+        "_postman_id": "3fb679c3-e2cc-45a4-851f-39c24d2354ee",
+        "name": "Blockchain APIs",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "blockchain",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:3000/blockchain",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["blockchain"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "transaction",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"amount\": 3,\r\n    \"sender\": \"feb65a70730f11ec982d8562f79cf5d7\",\r\n    \"recipient\": \"ed24fa50730f11ec9bab230c8243001c\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:3000/transaction",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["transaction"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "mine",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:3000/mine",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["mine"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "register-broadcast-node",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"newNodeURL\": \"http://localhost:3001\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:3000/register-broadcast-node",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["register-broadcast-node"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "register-node",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"newNodeURL\": \"http://localhost:3001\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:3000/register-node",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["register-node"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "register-nodes-bulk",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"allNetworkNodes\": [\r\n        \"http://localhost:3000\",\r\n        \"http://localhost:3001\",\r\n        \"http://localhost:3002\",\r\n        \"http://localhost:3003\"\r\n    ]\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:3000/register-nodes-bulk",
+                    "host": ["localhost"],
+                    "port": "3000",
+                    "path": ["register-nodes-bulk"]
+                }
+            },
+            "response": []
+        }
+    ]
 }
