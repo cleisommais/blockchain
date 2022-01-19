@@ -156,7 +156,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"amount\": 5,\r\n    \"sender\": \"feb65a70730f11ec982d8562f79cf5d7\",\r\n    \"recipient\": \"ed24fa50730f11ec9bab230c8243001c\"\r\n}",
+					"raw": "{\r\n    \"amount\": 6,\r\n    \"sender\": \"feb65a70730f11ec982d8562f79cf5d7\",\r\n    \"recipient\": \"ed24fa50730f11ec9bab230c8243001c\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -190,6 +190,63 @@
 					"port": "3004",
 					"path": [
 						"consensus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "block/:blockHash",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/block/0",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"block",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction/:transactionId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/transaction/bf8e0630789c11ec9474dd884baaf594",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"transaction",
+						"bf8e0630789c11ec9474dd884baaf594"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "address/:address",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/address/feb65a70730f11ec982d8562f79cf5d7",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"address",
+						"feb65a70730f11ec982d8562f79cf5d7"
 					]
 				}
 			},
