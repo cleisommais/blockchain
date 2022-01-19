@@ -263,6 +263,10 @@ app.get('/address/:address', (request, response) => {
     });
 });
 
+app.get('/block-explorer', (request, response) => {
+    response.sendFile('./html/index.html', { root: __dirname });
+});
+
 const PORT = process.env.PORT || process.argv[2];
 
 app.listen(PORT, () => {
